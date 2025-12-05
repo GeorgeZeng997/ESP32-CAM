@@ -1,0 +1,14 @@
+.pio/
+.pioenvs/
+.piolibdeps/
+.vscode/
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*.py[cod]
+__pycache__/
+.env
+.venv/
