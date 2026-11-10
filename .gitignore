@@ -1,14 +1,29 @@
+# PlatformIO
 .pio/
 .pioenvs/
 .piolibdeps/
+
+# IDEs & Editors
 .vscode/
 !.vscode/extensions.json
 .idea/
-.DS_Store
-Thumbs.db
 *.swp
 *.swo
-*.py[cod]
+
+# Build & Host Test Outputs
+build/
+*.o
+*.obj
+*.exe
+*.out
+
+# Python
 __pycache__/
-.env
+*.py[cod]
+.pytest_cache/
 .venv/
+.env
+
+# OS Metadata
+.DS_Store
+Thumbs.db

@@ -1,0 +1,45 @@
+name: CI
+
+on:
+  push:
+    branches: [main, "chore/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Run C++17 capture utility tests
+        run: |
+          g++ -std=c++17 -Wall -Wextra -Werror -O2 tests/test_capture_utils.cpp -o test_capture_utils
+          ./test_capture_utils
+
+      - name: Run Python manifest & hygiene tests
+        run: python3 -m unittest discover -s tests -v
+
+  firmware-build:
+    runs-on: ubuntu-latest
+    needs: unit-tests
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Cache PlatformIO packages
+        uses: actions/cache@v4
+        with:
+          path: ~/.platformio
+          key: ${{ runner.os }}-pio-esp32cam-${{ hashFiles('platformio.ini') }}
+
+      - name: Install PlatformIO and build ESP32-S3 firmware
+        run: |
+          pip install --upgrade platformio
+          pio run -e esp32s3_save_to_sd
